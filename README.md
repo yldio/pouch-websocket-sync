@@ -1,49 +1,56 @@
-# pouch-websocket-sync
+# pouch-stream-multi-sync
 
-Websocket live sync through websockets.
+Sync several PouchDBs through a stream.
 
-Supports:
-
-* reconnection
-* negotiation
-* authentication
+Supports reconnection, negotiation and authentication.
 
 ## Install
 
 ```
-$ npm install pouch-websocket-sync --save
+$ npm install pouch-stream-multi-sync --save
 ```
 
 ## Server
 
 ```js
-var PouchWebsocketSync = require('pouch-websocket-sync');
+var PouchSync = require('pouch-websocket-sync');
+var http = require('http');
+var httpServer = http.createServer();
+var server = PouchSync.createServer(httpServer, onRequest);
 
-var server = PouchWebsocketSync.createServer();
-
-server.on('database', function(credentials, dbName, cb) {
+function onRequest(credentials, dbName, cb) {
   if (credentials.token == 'some token') {
     cb(null, new PouchDB(dbName));
   } else {
     cb(new Error('not allowed'));
   }
-});
+};
 
-server.listen(port);
+// pipe server into and from duplex stream
+
+stream.pipe(server).pipe(stream);
 ```
 
 ## Client
 
 ```js
-var PouchWebsocketSync = require('pouch-websocket-sync');
+var websocket = require('websocket-stream');
+var PouchSync = require('pouch-websocket-sync');
 
 var db = new PouchDB('todos');
-var client = PouchWebsocketSync.createClient('wss://somehost:someport');
+var client = PouchSync.createClient();
 var sync = client.sync(db, {
   remoteName: 'todos-server',
   credentials: { token: 'some token'}
 });
+
+client.connect('ws://somehost:someport');
 ```
+
+## API
+
+TODO
+
 
 ## License
 

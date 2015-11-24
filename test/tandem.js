@@ -1,4 +1,4 @@
-var debug = require('debug')('pipe-channels:test');
+var debug = require('debug')('pouch-websocket-sync:test');
 var Lab = require('lab');
 var lab = exports.lab = Lab.script();
 var describe = lab.experiment;
@@ -15,6 +15,11 @@ var port = 4654;
 var PouchWebsocketSync = require('../');
 
 describe('pouch-websocket-sync', function() {
+  var listener;
+  var httpServer;
+  var server;
+  var client;
+
   var db = new PouchDB({
     name: 'todos',
     db: require('memdown'),
@@ -23,15 +28,12 @@ describe('pouch-websocket-sync', function() {
     name: 'todos-server',
     db: require('memdown'),
   });
-  var httpServer;
-  var server;
-  var client;
 
   describe('server', function() {
 
     it('can be created', function(done) {
       httpServer = http.createServer();
-      server = PouchWebsocketSync.createServer(httpServer);
+      server = PouchWebsocketSync.createServer(httpServer, onRequest);
       done();
     });
 
@@ -43,7 +45,8 @@ describe('pouch-websocket-sync', function() {
 
   describe('client', function() {
     it('can be created', function(done) {
-      client = PouchWebsocketSync.createClient('ws://localhost:' + port);
+      client = PouchWebsocketSync.createClient();
+      client.connect('ws://localhost:' + port);
       done();
     });
 
@@ -60,12 +63,13 @@ describe('pouch-websocket-sync', function() {
 
   describe('server', function() {
     it('can deny database requests', function(done) {
-      server.once('database', function(credentials, database, callback) {
+      listener = function(credentials, database, callback) {
         expect(credentials).to.deep.equal({token: 'some token'});
         callback(new Error('go away'));
-      });
+      };
 
-      client = PouchWebsocketSync.createClient('ws://localhost:' + port);
+      client = PouchWebsocketSync.createClient();
+      client.connect('ws://localhost:' + port);
       var sync = client.sync(db, { credentials: { token: 'some token'}});
 
       sync.once('error', function(err) {
@@ -77,12 +81,13 @@ describe('pouch-websocket-sync', function() {
     });
 
     it('can accept database requests', function(done) {
-      server.once('database', function(credentials, database, callback) {
+      listener = function(credentials, database, callback) {
         expect(credentials).to.deep.equal({token: 'some other token'});
         callback(null, serverDB);
-      });
+      };
 
       client = PouchWebsocketSync.createClient('ws://localhost:' + port);
+      client.connect('ws://localhost:' + port);
       var sync = client.sync(db, {
         credentials: { token: 'some other token'},
         remoteName: 'todos-server',
@@ -106,4 +111,13 @@ describe('pouch-websocket-sync', function() {
 
     });
   });
+
+  function onRequest(credentials, dbName, callback) {
+    if (! listener) {
+      callback(new Error('no database event listener on server'));
+    } else {
+      listener.apply(null, arguments);
+    }
+  }
+
 });

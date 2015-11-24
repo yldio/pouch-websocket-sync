@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pgte/pouch-websocket.git"
+    "url": "git+https://github.com/pgte/pouch-websocket-sync.git"
   },
   "author": "pgte",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pgte/pouch-websocket/issues"
+    "url": "https://github.com/pgte/pouch-websocket-sync/issues"
   },
-  "homepage": "https://github.com/pgte/pouch-websocket#readme",
+  "homepage": "https://github.com/pgte/pouch-websocket-sync#readme",
   "tags": [
     "pouchdb",
     "websocket",
@@ -23,12 +23,8 @@
   ],
   "dependencies": {
     "debug": "^2.2.0",
-    "pipe-channels": "^0.1.1",
-    "pouch-remote-stream": "^0.2.0",
-    "pouch-stream-server": "^0.2.0",
-    "reconnect-core": "^1.1.0",
-    "websocket-stream": "^2.1.0",
-    "xtend": "^4.0.1"
+    "pouch-stream-multi-sync": "^0.0.1",
+    "websocket-stream": "^2.1.0"
   },
   "devDependencies": {
     "code": "^2.0.1",
