@@ -4,7 +4,7 @@
   "description": "PouchDB live sync through websockets",
   "main": "index.js",
   "scripts": {
-    "test": "lab -lv"
+    "test": "node --harmony node_modules/istanbul/lib/cli.js cover -- lab -vl && istanbul check-coverage"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,12 @@
   ],
   "dependencies": {
     "debug": "^2.2.0",
-    "pouch-stream-multi-sync": "^0.0.1",
+    "pouch-stream-multi-sync": "^0.1.0",
     "websocket-stream": "^2.1.0"
   },
   "devDependencies": {
     "code": "^2.0.1",
+    "istanbul": "^0.4.0",
     "lab": "^7.3.0",
     "memdown": "^1.1.0",
     "pouchdb": "^5.1.0"

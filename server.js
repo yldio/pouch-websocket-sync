@@ -13,11 +13,12 @@ function createServer(server, onRequest) {
 
   function handle(stream) {
     var server = PouchSync.createServer(onRequest);
-    server.on('error', warn);
+    server.on('error', propagateError);
     stream.pipe(server).pipe(stream);
   }
-}
 
-function warn(err) {
-  console.error(err);
+  /* istanbul ignore next */
+  function propagateError(err) {
+    wsserver.emit('error', err);
+  }
 }

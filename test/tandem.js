@@ -29,6 +29,12 @@ describe('pouch-websocket-sync', function() {
     db: require('memdown'),
   });
 
+  after(function(done) {
+    if (client) client.destroy();
+    if (server) server.close();
+    done();
+  });
+
   describe('server', function() {
 
     it('can be created', function(done) {
