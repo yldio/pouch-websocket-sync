@@ -1,14 +1,13 @@
-var debug = require('debug')('pouch-websocket-sync:server');
 var websocket = require('websocket-stream');
 var PouchSync = require('pouch-stream-multi-sync');
 
 module.exports = createServer;
 
-function createServer(server, onRequest) {
-  if (! server) {
+function createServer(httpServer, onRequest) {
+  if (! httpServer) {
     throw new Error('need a base HTTP server as first argument');
   }
-  var wsserver = websocket.createServer({server: server}, handle);
+  var wsserver = websocket.createServer({server: httpServer}, handle);
   return wsserver;
 
   function handle(stream) {

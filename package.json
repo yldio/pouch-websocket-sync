@@ -4,7 +4,8 @@
   "description": "PouchDB live sync through websockets",
   "main": "index.js",
   "scripts": {
-    "test": "node --harmony node_modules/istanbul/lib/cli.js cover -- lab -vl && istanbul check-coverage"
+    "test": "node --harmony node_modules/istanbul/lib/cli.js cover -- lab -vl && istanbul check-coverage",
+    "style": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -22,15 +23,26 @@
     "stream"
   ],
   "dependencies": {
-    "debug": "^2.2.0",
     "pouch-stream-multi-sync": "^0.1.0",
     "websocket-stream": "^2.1.0"
   },
   "devDependencies": {
     "code": "^2.0.1",
+    "eslint": "^1.10.1",
     "istanbul": "^0.4.0",
     "lab": "^7.3.0",
     "memdown": "^1.1.0",
-    "pouchdb": "^5.1.0"
-  }
+    "pouchdb": "^5.1.0",
+    "pre-commit": "^1.1.2"
+  },
+  "tags": [
+    "pouchdb",
+    "stream",
+    "sync",
+    "websockets"
+  ],
+  "pre-commit": [
+    "style",
+    "test"
+  ]
 }
