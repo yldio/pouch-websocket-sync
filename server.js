@@ -11,6 +11,7 @@ function createServer(httpServer, onRequest) {
   return wsserver;
 
   function handle(stream) {
+    stream.on('error', propagateError);
     var server = PouchSync.createServer(onRequest);
     server.on('error', propagateError);
     stream.pipe(server).pipe(stream);
@@ -18,6 +19,8 @@ function createServer(httpServer, onRequest) {
 
   /* istanbul ignore next */
   function propagateError(err) {
-    wsserver.emit('error', err);
+    if (err.message != 'write after end') {
+      wsserver.emit('error', err);
+    }
   }
 }
