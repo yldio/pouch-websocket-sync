@@ -22,6 +22,7 @@ var PouchSync = require('pouch-websocket-sync');
 var http = require('http');
 var httpServer = http.createServer();
 var server = PouchSync.createServer(httpServer, onRequest);
+httpServer.listen(3000);
 
 function onRequest(credentials, dbName, cb) {
   if (credentials.token == 'some token') {
@@ -30,10 +31,6 @@ function onRequest(credentials, dbName, cb) {
     cb(new Error('not allowed'));
   }
 };
-
-// pipe server into and from duplex stream
-
-stream.pipe(server).pipe(stream);
 ```
 
 ## Client
