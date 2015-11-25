@@ -1,4 +1,3 @@
-var debug = require('debug')('pouch-websocket-sync:test');
 var Lab = require('lab');
 var lab = exports.lab = Lab.script();
 var describe = lab.experiment;
