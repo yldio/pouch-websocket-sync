@@ -19,7 +19,7 @@ function createServer(httpServer, onRequest) {
 
   /* istanbul ignore next */
   function propagateError(err) {
-    if (err.message != 'write after end') {
+    if (err.message !== 'write after end') {
       wsserver.emit('error', err);
     }
   }

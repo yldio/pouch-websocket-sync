@@ -29,12 +29,6 @@ describe('pouch-websocket-sync', function() {
     db: require('memdown'),
   });
 
-  after(function(done) {
-    if (client) client.destroy();
-    if (server) server.close();
-    done();
-  });
-
   describe('server', function() {
 
     it('can be created', function(done) {
@@ -52,14 +46,17 @@ describe('pouch-websocket-sync', function() {
   describe('client', function() {
     it('can be created', function(done) {
       client = PouchWebsocketSync.createClient();
+      client.on('error', function(err) {
+        console.error('error on first client', err);
+        done(err);
+      });
       client.connect('ws://localhost:' + port);
       done();
     });
 
     it('can be made to sync', function(done) {
       var sync = client.sync(db, { credentials: { token: 'some token'}});
-      sync.once('error', function(err) {
-        expect(err).to.be.an.object();
+      sync.on('error', function(err) {
         expect(err.message).to.equal('no database event listener on server');
         sync.cancel();
         done();
@@ -75,11 +72,15 @@ describe('pouch-websocket-sync', function() {
       };
 
       client = PouchWebsocketSync.createClient();
+      client.on('error', function(err) {
+        console.error('error on second client', err);
+        done(err);
+      });
+
       client.connect('ws://localhost:' + port);
       var sync = client.sync(db, { credentials: { token: 'some token'}});
 
-      sync.once('error', function(err) {
-        expect(err).to.be.an.object();
+      sync.on('error', function(err) {
         expect(err.message).to.equal('go away');
         sync.cancel();
         done();
@@ -93,6 +94,11 @@ describe('pouch-websocket-sync', function() {
       };
 
       client = PouchWebsocketSync.createClient('ws://localhost:' + port);
+      client.on('error', function(err) {
+        console.error('error on third client', err);
+        // done(err);
+      });
+
       client.connect('ws://localhost:' + port);
       var sync = client.sync(db, {
         credentials: { token: 'some other token'},

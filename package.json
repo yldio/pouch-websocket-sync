@@ -1,6 +1,6 @@
 {
   "name": "pouch-websocket-sync",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "PouchDB live sync through websockets",
   "main": "index.js",
   "scripts": {
