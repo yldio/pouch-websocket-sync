@@ -8,6 +8,10 @@ Sync several PouchDBs through websockets.
 
 Supports reconnection, negotiation and authentication.
 
+## Demo
+
+Example Todo application using React and Redux: https://github.com/pgte/pouch-websocket-sync-example#readme
+
 
 ## Install
 
