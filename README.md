@@ -42,8 +42,8 @@ var PouchSync = require('pouch-websocket-sync');
 var db = new PouchDB('todos');
 var client = PouchSync.createClient();
 var sync = client.sync(db, {
-  remoteName: 'todos-server',
-  credentials: { token: 'some token'}
+  remoteName: 'todos-server', // name remote db is known for
+  credentials: { token: 'some token'} // arbitrary
 });
 
 client.connect('ws://somehost:someport');
