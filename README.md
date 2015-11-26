@@ -12,6 +12,7 @@ Supports reconnection, negotiation and authentication.
 
 See [here an example todo application](https://github.com/pgte/pouch-websocket-sync-example#readme) using React and Redux.
 
+[Video demo](https://www.youtube.com/watch?v=2UOfVFseksw)
 
 ## Install
 
