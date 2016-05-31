@@ -23,7 +23,7 @@
     "stream"
   ],
   "dependencies": {
-    "pouch-stream-multi-sync": "^0.2.1",
+    "pouch-stream-multi-sync": "^0.3.0",
     "websocket-stream": "^2.1.0"
   },
   "devDependencies": {
