@@ -1,6 +1,11 @@
 var websocket = require('websocket-stream');
 var PouchSync = require('pouch-stream-multi-sync');
 
+var ignoreErrorMessages = [
+  'write after end',
+  'not opened',
+];
+
 module.exports = createServer;
 
 function createServer(httpServer, onRequest) {
@@ -19,7 +24,7 @@ function createServer(httpServer, onRequest) {
 
   /* istanbul ignore next */
   function propagateError(err) {
-    if (err.message !== 'write after end') {
+    if (ignoreErrorMessages.indexOf(err.message) < 0) {
       wsserver.emit('error', err);
     }
   }
