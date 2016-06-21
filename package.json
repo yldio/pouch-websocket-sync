@@ -41,7 +41,7 @@
     "sync",
     "websockets"
   ],
-  "browser": "client.js",
+  "browser": "browser.js",
   "pre-commit": [
     "style",
     "test"
