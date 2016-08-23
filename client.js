@@ -1,10 +1,10 @@
 var Websocket = require('websocket-stream');
-var PouchSync = require('pouch-stream-multi-sync');
+var PouchSync = require('pouch-stream-multi-sync/client');
 
 module.exports = createClient;
 
 function createClient() {
-  var client = PouchSync.createClient(function connect(address) {
+  var client = PouchSync(function connect(address) {
     var ws = Websocket(address);
     ws.on('error', onError);
     return ws;
