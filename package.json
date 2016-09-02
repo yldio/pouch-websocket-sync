@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "pouch-stream-multi-sync": "datuxer/pouch-stream-multi-sync",
-    "websocket-stream": "^3.2.1"
+    "websocket-stream": "^3.3.0"
   },
   "devDependencies": {
     "code": "^2.0.1",
